@@ -51,6 +51,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // 1. create request
         // 2. handler for request
         
+        resultLabel.text = "Finding ...."
+        
         if let model = try? VNCoreMLModel(for: MobileNetV2().model) {
             let request = VNCoreMLRequest(model: model) { (vnrequest, error) in
                 if let results = vnrequest.results as? [VNClassificationObservation] {
@@ -61,22 +63,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         
                         DispatchQueue.main.async {
                             let confidenceLevel = (topResult?.confidence ?? 0) * 100
+                            let rounded = Int (confidenceLevel * 100) / 100
                             
+                            self.resultLabel.text = "\(rounded)%  it's \(topResult!.identifier)"
                             
-                            self.resultLabel.text = "\(confidenceLevel)%  it's \(topResult?.identifier)"
-                            
-                            
-                            
-                        }
+                        }// end dispatch...
                         
-                    }
+                    }// end if results.count....
+                }// end if let results....
+            }// end let request...
+            
+            
+            let handler = VNImageRequestHandler(ciImage: image)
+            DispatchQueue.global(qos: .userInteractive).async {
+                do {
+                    try handler.perform([request])
+                } catch {
+                    print("Error")
                 }
+                
             }
             
-        }
-        
-        
-    }
+        }// end if let model...
+    }// end func
     
     
 }
