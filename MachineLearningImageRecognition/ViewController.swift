@@ -65,7 +65,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                             let confidenceLevel = (topResult?.confidence ?? 0) * 100
                             let rounded = Int (confidenceLevel * 100) / 100
                             
-                            self.resultLabel.text = "\(rounded)%  it's \(topResult!.identifier)"
+                            self.resultLabel.text = "\(rounded)%  This is a/an \(topResult!.identifier)"
                             
                         }// end dispatch...
                         
