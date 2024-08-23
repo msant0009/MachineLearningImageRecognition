@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import CoreML
+import Vision
+
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -13,6 +16,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @IBOutlet var resultLabel: UILabel!
+    
+    var chosenImage = CIImage()
     
     
     
@@ -34,12 +39,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageView.image = info[.originalImage] as? UIImage
         self.dismiss(animated: true, completion: nil)
         
+        if let ciImage = CIImage(image: imageView.image!){
+            chosenImage = ciImage
+        }
+        
+        recognizeImage(image: chosenImage)
+        
+    }
+    
+    func recognizeImage(image: CIImage) {
         
         
         
     }
-    
-    
     
     
 }
